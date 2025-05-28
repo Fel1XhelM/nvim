@@ -1,0 +1,27 @@
+.config
+	after
+		plugin
+			cmp.lua  
+			lsp.lua  
+			quickui.lua  
+			quickui.txt  
+			telescope.lua  
+			treesitter.lua
+	documentation.txt
+	init.lua  
+	lazy-lock.json  
+	lua
+		autosave.lua  
+		keymaps.lua  
+		options.lua  
+		packerplugins.lua  
+		pluginlist.lua  
+		plugins.lua  
+		settings.lua  
+		snippets
+			all.lua  
+			skizze.lua  
+			test2.lua  
+			title.lua
+	plugin
+		packer_compiled.lua
