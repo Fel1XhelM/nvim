@@ -4,7 +4,7 @@
 -- ========================
 -- require("settings")   -- General settings
 require("keymaps")    -- Keybindings
-require("options")
+require("settings")
 require("plugins")   -- Plugin manager & plugins
 -- require("quickui")    -- QuickUI Macros
 -- require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets/" })
