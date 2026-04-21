@@ -1,28 +1,42 @@
 -- ========================
 -- Key Mappings
 -- ========================
-local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
+local platform = require("platform")
 
-map("n", "<F2>", ":call quickui#menu#open()<CR>", opts) -- Open QuickUI menu
-map("n", "<F3>", ":Telescope file_browser path=~/storage/shared hidden=true<CR>", opts) -- Open file browser in Android storage
-map("n", "<F4>", ":lua ChangeToHomeAndToggleTree()<CR>", opts)
+vim.keymap.set("n", "<F2>", "<cmd>call quickui#menu#open()<CR>", opts)
 
+local function open_file_browser()
+  local ok, telescope = pcall(require, "telescope")
+  if not ok then
+    vim.notify("telescope.nvim is not available", vim.log.levels.WARN)
+    return
+  end
 
+  local extension = telescope.extensions.file_browser
+  if not extension or not extension.file_browser then
+    vim.notify("telescope-file-browser.nvim is not available", vim.log.levels.WARN)
+    return
+  end
 
-
-
-
-
-
--- vim.api.nvim_set_keymap(
---  "n",
---  "<F4>",
---  ":lua ChangeToHomeAndToggleTree()<CR>",
---  { noremap = true, silent = true }
---)
-
-function ChangeToHomeAndToggleTree()
-  vim.cmd("cd ~")
-  require("nvim-tree.api").tree.toggle()
+  extension.file_browser({
+    path = platform.file_browser_root,
+    cwd = platform.file_browser_root,
+    hidden = true,
+  })
 end
+
+local function change_to_home_and_toggle_tree()
+  vim.cmd.cd(vim.env.HOME or "~")
+
+  local ok, api = pcall(require, "nvim-tree.api")
+  if not ok then
+    vim.notify("nvim-tree is not available", vim.log.levels.WARN)
+    return
+  end
+
+  api.tree.toggle()
+end
+
+vim.keymap.set("n", "<F3>", open_file_browser, opts)
+vim.keymap.set("n", "<F4>", change_to_home_and_toggle_tree, opts)
